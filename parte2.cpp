@@ -22,7 +22,7 @@ struct Veiculo {
         cout << " - Loja: "<< LojaRetirada << endl;
     };
 
-    void alterarCliente(Veiculo *veiculo){
+    void alterarVeiculo(Veiculo *veiculo){
         veiculo->alterarRenavam();
         veiculo->alterarPlaca();
         veiculo->alterarRetirada();
@@ -186,7 +186,7 @@ int main (void){
                     cout << "Veiculo não localizado." << endl;
             } else {
                 if (selecionado == 3)
-                    veiculos[posicao].alterarCliente(&veiculos[posicao]);
+                    veiculos[posicao].alterarVeiculo(&veiculos[posicao]);
 
                 if(selecionado == 5)
                     veiculos[posicao].mostrarVeiculo();
