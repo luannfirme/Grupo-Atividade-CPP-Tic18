@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <algorithm>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ struct Veiculo {
         int resp;
         do {
             cout << endl << endl;
-            cout << "#### GESTAO DE VEICULOS ####" << endl;
+            cout << "######## GESTAO DE VEICULOS ########" << endl;
             cout << "1. INCLUIR" << endl;
             cout << "2. EXCLUIR" << endl;
             cout << "3. ALTERAR" << endl;
@@ -47,7 +48,6 @@ struct Veiculo {
                 Veiculo veiculo;
                 lerDados(&veiculo);
                 veiculos->push_back(veiculo);
-                cout << "Veiculo registrado com sucesso!" << endl;
             }
 
             if (selecionado >= 2 && selecionado <= 3 || selecionado == 5){
@@ -107,9 +107,10 @@ struct Veiculo {
         cin >> veiculo->Entrega.dia >> veiculo->Entrega.mes  >> veiculo->Entrega.ano >> veiculo->Entrega.hora  >> veiculo->Entrega.minuto;
 
         cout << "Digite a loja onde o veiculo sera retirado: ";
-        cin >> veiculo->LojaRetirada;
+        cin.ignore();
+        getline( cin, veiculo->LojaRetirada);
 
-        cout << "Veiculo excluido com sucesso" << endl;
+        cout << "Veiculo registrado com sucesso!" << endl;
     };
 
     void mostrarVeiculo(Veiculo *veiculo){
@@ -205,7 +206,8 @@ struct Veiculo {
 
             if (resp == 's'  || resp == 'S' ){
                 cout << "Informe a nova loja: ";
-                cin >> LojaRetirada;
+                cin.ignore();
+                getline( cin, LojaRetirada);
                 break;
             } else if (resp == 'n'  || resp == 'n' ){
                 break;
@@ -218,6 +220,7 @@ struct Veiculo {
         for (int i = 0; i < veiculos->size(); ++i) {
             if((*veiculos)[i].PlacaDoVeiculo == placa){
                 n = i;
+                break;
             }
         }
         return n;
@@ -233,7 +236,7 @@ struct Cliente {
         int resp;
         do {
             cout << endl << endl;
-            cout << "#### GESTAO DE CLIENTES ####" << endl;
+            cout << "######## GESTAO DE CLIENTES ########" << endl;
             cout << "1. INCLUIR" << endl;
             cout << "2. EXCLUIR" << endl;
             cout << "3. ALTERAR" << endl;
@@ -305,7 +308,8 @@ struct Cliente {
     void lerDados(Cliente *cliente ){
         cout << endl << endl;
         cout << "Digite o nome do cliente: ";
-        cin >> cliente->Nome;
+        cin.ignore();
+        getline( cin, cliente->Nome);
 
         cout << "Digite o CPF do cliente: ";
         cin >> cliente->Cpf;
@@ -358,7 +362,8 @@ struct Cliente {
 
             if (resp == 's'  || resp == 'S' ){
                 cout << "Informe o novo nome: ";
-                cin >> Nome;
+                cin.ignore();
+                getline( cin, Nome);
                 break;
             } else if (resp == 'n'  || resp == 'n' ){
                 break;
@@ -405,6 +410,7 @@ struct Cliente {
         for (int i = 0; i < clientes->size(); ++i) {
             if((*clientes)[i].Cpf == cpf){
                 n = i;
+                break;
             }
         }
         return n;
@@ -415,6 +421,7 @@ struct Cliente {
         for (int i = 0; i < clientes->size(); ++i) {
             if((*clientes)[i].Cnh == cnh){
                 n = i;
+                break;
             }
         }
         return n;
@@ -431,7 +438,7 @@ struct Locacao {
         int resp;
         do {
             cout << endl << endl;
-            cout << "#### GESTAO DE LOCACAO ####" << endl;
+            cout << "######## GESTAO DE LOCACAO ########" << endl;
             cout << "1. INCLUIR" << endl;
             cout << "2. EXCLUIR" << endl;
             cout << "3. ALTERAR" << endl;
@@ -496,7 +503,7 @@ struct Locacao {
 
             if (selecionado == 4){
                 if (locacoes->empty()) {
-                    cout << "Nenhum cliente cadastrado." << endl;
+                    cout << "Nenhuma locacao cadastrada." << endl;
                 } else {
                     cout << endl;
                     for (int i = 0; i < locacoes->size(); ++i) {
@@ -566,6 +573,8 @@ struct Locacao {
         cout << " - Cliente: " << locacao->ClienteId.Nome << " - Retirada: " << locacao->Retirada.dia << "/" << locacao->Retirada.mes << "/" << locacao->Retirada.ano << " " << locacao->Retirada.hora << ":" << locacao->Retirada.minuto;
         if(locacao->Entrega.dia != 0)
             cout << " - Entrega: " << locacao->Entrega.dia << "/" << locacao->Entrega.mes << "/" << locacao->Entrega.ano << " " << locacao->Entrega.hora << ":" << locacao->Entrega.minuto;
+        
+        cout << endl;
     };
 
     void alterarLocacao(Locacao *locacao){
@@ -579,9 +588,250 @@ struct Locacao {
         for (int i = 0; i < locacoes->size(); ++i) {
             if((*locacoes)[i].ClienteId.Cpf == cpf && (*locacoes)[i].VeiculoId.PlacaDoVeiculo == placa){
                 n = i;
+                break;
             }
         }
         return n;
+    };
+};
+
+struct Ocorrencia {
+    string Descricao, NumeroDeApolice;
+    DataHora DataOcorrencia;
+    Locacao LocacaoId;
+
+    int mostrarMenu(){
+        int resp;
+        do {
+            cout << endl << endl;
+            cout << "######## GESTAO DE OCORRENCIA ########" << endl;
+            cout << "1. INCLUIR" << endl;
+            cout << "2. EXCLUIR" << endl;
+            cout << "3. ALTERAR" << endl;
+            cout << "4. LISTAR POR CLIENTE" << endl;
+            cout << "5. LISTAR POR VEICULO" << endl;
+            cout << "6. REGISTRAR OCORRENCIA POR VEICULO" << endl;
+            cout << "0. VOLTAR" << endl;
+            cout << "Resposta <enter>: ";
+            cin >> resp;
+        } while ((resp < 0 ) || (resp > 6));
+    };
+
+    int iniciar(vector<Ocorrencia> *ocorrencias, vector<Locacao> *locacoes){
+        int selecionado;
+        string placa, cpf;
+
+        cout << endl << endl;
+
+        do {
+            selecionado = mostrarMenu();
+
+            if (selecionado >= 1 && selecionado <= 2 || selecionado == 3){
+                Locacao locacao;
+
+                cout << "Informe a placa do veiculo: ";
+                cin >> placa;
+                cout << "Informe o CPF do cliente: ";
+                cin >> cpf;
+
+                int locacaoPosicao = locacao.buscarPosicao(cpf, placa, locacoes);
+
+                 if(locacaoPosicao < 0 ){
+                        cout << "Locacao nao localizada." << endl;
+                } else {
+                    cout << endl << endl;
+
+                    int posicao = buscarPosicao((&(*locacoes)[locacaoPosicao]), ocorrencias);
+
+                    if(selecionado == 1){
+                        Ocorrencia ocorrencia;
+                        ocorrencia.lerDados((&ocorrencia), (&(*locacoes)[locacaoPosicao]));
+                        ocorrencias->push_back(ocorrencia);
+                    }
+
+                    if (selecionado == 2){
+                        auto it = ocorrencias->begin();
+                        advance(it, posicao);
+                        ocorrencias->erase(it);
+                        cout << "Ocorrencia excluida com sucesso" << endl;
+                    }
+
+                    if (selecionado == 3)
+                        alterarOcorrencia(&(*ocorrencias)[posicao]);
+
+                }
+            }
+
+            if (selecionado == 4){
+                if (locacoes->empty()) {
+                    cout << "Nenhuma ocorrencia cadastrada." << endl;
+                } else {
+                    cout << endl;
+                    cout << "Informe o CPF do cliente: ";
+                    cin >> cpf;
+                    for (int i = 0; i < ocorrencias->size(); ++i) {
+                        if((*ocorrencias)[i].LocacaoId.ClienteId.Cpf == cpf)
+                        mostrarOcorrencia(&(*ocorrencias)[i]);
+                    }
+                    cout << endl << endl;
+                }
+            }
+
+            if (selecionado == 5){
+                if (locacoes->empty()) {
+                    cout << "Nenhuma ocorrencia cadastrada." << endl;
+                } else {
+                    cout << endl;
+                    cout << "Informe a placa do veiculo: ";
+                    cin >> placa;
+                    for (int i = 0; i < ocorrencias->size(); ++i) {
+                        if((*ocorrencias)[i].LocacaoId.VeiculoId.PlacaDoVeiculo == placa)
+                        mostrarOcorrencia(&(*ocorrencias)[i]);
+                    }
+                    cout << endl << endl;
+                }
+            }
+
+            if (selecionado == 6)
+                registrarOcorrenciaPorVeiculo(ocorrencias, locacoes);
+
+        } while (selecionado != 0);
+
+        return 0;
+    }
+
+    void lerDados(Ocorrencia *ocorrencia, const Locacao *locacao){
+
+        cout << endl << endl;
+        cout << "Descreva a ocorrencia: ";
+        cin.ignore();
+        getline( cin, ocorrencia->Descricao);
+
+        cout << "Digite o numero da apolice de seguro: ";
+        cin >> ocorrencia->NumeroDeApolice;
+
+        cout << "Digite a data e hora da ocorrencia: ";
+        cin >> ocorrencia->DataOcorrencia.dia >> ocorrencia->DataOcorrencia.mes >> ocorrencia->DataOcorrencia.ano >> ocorrencia->DataOcorrencia.hora >> ocorrencia->DataOcorrencia.minuto;
+
+        ocorrencia->LocacaoId = *locacao;
+                
+        cout << "Ocorrencia registrada com sucesso!" << endl;
+    };
+
+    void mostrarOcorrencia(Ocorrencia *ocorrencia){
+        cout << "Ocorrencia: " << ocorrencia->Descricao ;
+        cout << " - Data: "<< ocorrencia->DataOcorrencia.dia  << "/" << ocorrencia->DataOcorrencia.mes << "/" << ocorrencia->DataOcorrencia.ano << " " << ocorrencia->DataOcorrencia.hora << ":" << ocorrencia->DataOcorrencia.minuto << " - Apolice de seguro: "<< ocorrencia->NumeroDeApolice;
+        cout << " - Veiculo: " << ocorrencia->LocacaoId.VeiculoId.PlacaDoVeiculo << " - Retirada: " << ocorrencia->LocacaoId.Retirada.dia << "/" << ocorrencia->LocacaoId.Retirada.mes << "/" << ocorrencia->LocacaoId.Retirada.ano << " " << ocorrencia->LocacaoId.Retirada.hora << ":" << ocorrencia->LocacaoId.Retirada.minuto << " - Loja: " << ocorrencia->LocacaoId.VeiculoId.LojaRetirada;
+        cout << " - Cliente: " <<  ocorrencia->LocacaoId.ClienteId.Nome << endl;
+    };
+
+    void alterarOcorrencia(Ocorrencia *ocorrencia){
+        ocorrencia->alterarDescricao();
+        ocorrencia->alterarData();
+        ocorrencia->alterarApolice();
+        cout << "Ocorrencia alterada com sucesso" << endl;
+    };
+
+    void alterarDescricao(){
+        char resp;
+        do {
+            cout << "Descricao: " << Descricao << endl;
+            cout << "Deseja Alterar a descricao da ocorrencia?" << endl;
+            cout << "Resposta s/n <enter>: ";
+            cin >> resp;
+
+            if (resp == 's'  || resp == 'S' ){
+                cout << "Informe a nova descricao: ";
+                cin.ignore();
+                getline( cin, Descricao);
+                break;
+            } else if (resp == 'n'  || resp == 'n' ){
+                break;
+            }
+        } while ((resp != 's' ) || (resp != 'S' ) || (resp != 'n' ) || (resp != 'N' ));
+    };
+
+    void alterarData(){
+        char resp;
+        do {
+            cout << "Data: " << DataOcorrencia.dia  << "/" << DataOcorrencia.mes << "/" << DataOcorrencia.ano << " " << DataOcorrencia.hora << ":" << DataOcorrencia.minuto << endl;
+            cout << "Deseja Alterar a data e hora da ocorrencia?" << endl;
+            cout << "Resposta s/n <enter>: ";
+            cin >> resp;
+
+            if (resp == 's'  || resp == 'S' ){
+                cout << "Informe a nova data e hora: ";
+                cin >> DataOcorrencia.dia >> DataOcorrencia.mes  >> DataOcorrencia.ano >> DataOcorrencia.hora >> DataOcorrencia.minuto;
+                break;
+            } else if (resp == 'n'  || resp == 'n' ){
+                break;
+            }
+        } while ((resp != 's' ) || (resp != 'S' ) || (resp != 'n' ) || (resp != 'N' ));
+    };
+
+    void alterarApolice(){
+        char resp;
+        do {
+            cout << "Numero de apolice: " << NumeroDeApolice << endl;
+            cout << "Deseja Alterar o numero de apolice da ocorrencia?" << endl;
+            cout << "Resposta s/n <enter>: ";
+            cin >> resp;
+
+            if (resp == 's'  || resp == 'S' ){
+                cout << "Informe a novo numero de apolice: ";
+                cin >> NumeroDeApolice;
+                break;
+            } else if (resp == 'n'  || resp == 'n' ){
+                break;
+            }
+        } while ((resp != 's' ) || (resp != 'S' ) || (resp != 'n' ) || (resp != 'N' ));
+    };
+
+    int buscarPosicao(Locacao* locacao, vector<Ocorrencia>* ocorrencia) {
+        auto it = find_if(ocorrencia->begin(), ocorrencia->end(), 
+            [locacao](const Ocorrencia& o) {
+                return o.LocacaoId.ClienteId.Cpf == locacao->ClienteId.Cpf &&
+                    o.LocacaoId.VeiculoId.PlacaDoVeiculo == locacao->VeiculoId.PlacaDoVeiculo;
+            });
+
+        if (it != ocorrencia->end()) {
+            return distance(ocorrencia->begin(), it);
+        } else {
+            return -1;
+        }
+    };
+
+    void registrarOcorrenciaPorVeiculo(vector<Ocorrencia>* ocorrencias, vector<Locacao>* locacoes) {
+        string placa;
+
+        cout << "Informe a placa do veiculo: ";
+        cin >> placa;
+
+        Ocorrencia ocorrencia;
+        ocorrencia.registraDadosPorVeiculo(&ocorrencia);
+
+        for (const auto& locacao : *locacoes) {
+            if (locacao.VeiculoId.PlacaDoVeiculo == placa) {
+                Ocorrencia novaOcorrencia = ocorrencia;
+                novaOcorrencia.LocacaoId = locacao;
+                ocorrencias->push_back(novaOcorrencia);
+            }
+        }
+    };
+
+    void registraDadosPorVeiculo(Ocorrencia *ocorrencia) {
+
+        cout << endl << endl;
+        cout << "Descreva a ocorrencia: ";
+        cin.ignore();
+        getline( cin, ocorrencia->Descricao);
+
+        cout << "Digite o numero da apolice de seguro: ";
+        cin >> ocorrencia->NumeroDeApolice;
+
+        cout << "Digite a data e hora da ocorrencia: ";
+        cin >> ocorrencia->DataOcorrencia.dia >> ocorrencia->DataOcorrencia.mes >> ocorrencia->DataOcorrencia.ano >> ocorrencia->DataOcorrencia.hora >> ocorrencia->DataOcorrencia.minuto;                
+        cout << "Ocorrencia registrada com sucesso!" << endl;
     };
 };
 
@@ -593,35 +843,46 @@ int menuPrincipal(){
         cout << "1. GESTAO DE CLIENTE" << endl;
         cout << "2. GESTAO DE VEICULOS" << endl;
         cout << "3. GESTAO DE LOCACAO" << endl;
+        cout << "4. GESTAO DE OCORRENCIAS" << endl;
         cout << "0. SAIR" << endl;
         cout << "Resposta <enter>: ";
         cin >> resp;
-    } while ((resp < 0 ) || (resp > 3));
+    } while ((resp < 0 ) || (resp > 4));
 };
 
 int main (void){
     vector<Cliente> clientes;
     vector<Veiculo> veiculos;
     vector<Locacao> locacoes;
-    Veiculo veiculo;
+    vector<Ocorrencia> ocorrencias;
     Cliente cliente;
+    Veiculo veiculo;
     Locacao locacao;
+    Ocorrencia ocorrencia;
     int selecionado;
+    
 
     cout << endl << endl;
 
     do {
         selecionado = menuPrincipal();
 
-        if(selecionado == 1)
-            cliente.iniciar(&clientes);
-        
-        if (selecionado == 2)
-            veiculo.iniciar(&veiculos);
-            
-        if (selecionado == 3)
-            locacao.iniciar(&locacoes, &clientes, &veiculos);
-
+       switch (selecionado) {
+            case 1:
+                cliente.iniciar(&clientes);
+                break;
+            case 2:
+                veiculo.iniciar(&veiculos);
+                break;
+            case 3:
+                locacao.iniciar(&locacoes, &clientes, &veiculos);
+                break;
+            case 4:
+                ocorrencia.iniciar(&ocorrencias, &locacoes);
+                break;
+            default:
+                cout << endl;
+        }
     } while (selecionado != 0);
 
     cout << endl << endl;
