@@ -58,22 +58,22 @@ void alterarVeiculo(vector<veiculo>& veiculos) {
     cin >> pl_veiculoAlterar;
 
     for (auto& veiculo : veiculos) {
-        if (cliente.pl_veiculo == pl_veiculoAlterar) {
+        if (veiculo.pl_veiculo == pl_veiculoAlterar) {
             cout << "Digite a Placa do Veículo: ";
             cin.ignore();
-            getline(cin, novoVeiculo.pl_veiculo);
+            getline(cin, veiculo.pl_veiculo);
             
             cout << "Digite o renavan do veiculo: ";
-            getline(cin, novoVeiculo.renavan);
+            getline(cin, veiculo.renavan);
 
             cout << "Digite data/hora da retirada: " << endl;
-            getline(cin, novoVeiculo.dt_hora_ret);
+            getline(cin, veiculo.dt_hora_ret);
 
             cout << "Digite data/hora da entrega:" << endl;
-            getline(cin, novoVeiculo.dt_hora_entr);
+            getline(cin, veiculo.dt_hora_entr);
 
             cout << "Digite a Loja da Retirada:" << endl;
-            getline(cin, novoVeiculo.lj_Retirada);
+            getline(cin, veiculo.lj_Retirada);
 
             cout << "Veículo alterado com sucesso!" << endl;
             cout << endl;
@@ -133,8 +133,9 @@ int main() {
         cout << "Menu de Opções Veicular:\n" << endl;
         cout << "1. Incluir" << endl;
         cout << "2. Excluir" << endl;
-        cout << "3. Listar" << endl;
-        cout << "4. Localizar" << endl;
+        cout << "3. Alterar" << endl;
+        cout << "4. Listar" << endl;
+        cout << "5. Localizar" << endl;
         cout << "0. Sair" << endl;
         cout << endl;
         cout << "Escolha uma opção:";
@@ -149,7 +150,7 @@ int main() {
                 excluirVeiculo(veiculos);
                 break;
             case 3:
-                alterarViculo(veiculos);
+                alterarVeiculo(veiculos);
                 break;
             case 4:
                 listarVeiculos(veiculos);
