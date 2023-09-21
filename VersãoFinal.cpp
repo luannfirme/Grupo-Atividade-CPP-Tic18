@@ -70,8 +70,7 @@ struct Veiculo
         int resp;
         do
         {
-            cout << endl
-                 << endl;
+            cout << endl << endl;
             cout << "########   GESTAO DE VEICULOS  ########" << endl;
             cout << "1. INCLUIR" << endl;
             cout << "2. EXCLUIR" << endl;
@@ -167,9 +166,19 @@ struct Veiculo
 
         cout << "Digite a data e hora de retirada do veiculo: ";
         cin >> veiculo->Retirada.dia >> veiculo->Retirada.mes >> veiculo->Retirada.ano >> veiculo->Retirada.hora >> veiculo->Retirada.minuto;
-
+        if (Retirada.validarDataHora() != true)
+        {
+            cout << "Data invalida!" << endl;
+            return;
+        }
+        
         cout << "Digite a data e hora de entrega do veiculo: ";
         cin >> veiculo->Entrega.dia >> veiculo->Entrega.mes >> veiculo->Entrega.ano >> veiculo->Entrega.hora >> veiculo->Entrega.minuto;
+        if (Entrega.validarDataHora() != true)
+        {
+            cout << "Data invalida!" << endl;
+            return;
+        }
 
         cout << "Digite a loja onde o veiculo sera retirado: ";
         cin.ignore();
@@ -433,6 +442,11 @@ struct Cliente
 
         cout << "Digite a Data de Nascimento: ";
         cin >> cliente->DtNascimento.dia >> cliente->DtNascimento.mes >> cliente->DtNascimento.ano;
+        if (DtNascimento.validarData() != true)
+        {
+            cout << "Data invalida!" << endl;
+            return;
+        }
 
         cout << "Digite a CNH do cliente: ";
         cin >> cliente->Cnh;
@@ -713,6 +727,11 @@ struct Locacao
 
                 cout << "Digite a data e hora real de retirada do veiculo: ";
                 cin >> locacao->Retirada.dia >> locacao->Retirada.mes >> locacao->Retirada.ano >> locacao->Retirada.hora >> locacao->Retirada.minuto;
+                if (Retirada.validarDataHora() != true)
+                {
+                    cout << "Data invalida!" << endl;
+                    return;
+                }
 
                 locacao->Entrega.dia = 0;
 
@@ -762,6 +781,12 @@ struct Locacao
     {
         cout << "Digite a data e hora real de entrega do veiculo: ";
         cin >> locacao->Entrega.dia >> locacao->Entrega.mes >> locacao->Entrega.ano >> locacao->Entrega.hora >> locacao->Entrega.minuto;
+        if (Entrega.validarDataHora() != true)
+        {
+            cout << "Data invalida!" << endl;
+            return;
+        }
+        
         cout << "Locacao alterada com sucesso" << endl;
     };
 
